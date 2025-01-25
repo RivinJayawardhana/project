@@ -157,7 +157,7 @@ include 'components/save_send.php';
 
 <section class="price-prediction">
     <h3 class="title">Next Year Price Prediction</h3>
-    <button id="viewAnalysisButton" class="btn btn-primary">View Price Analysis</button>
+    <button id="viewAnalysisButton" class="btn btn-primary">View Price Analysis for next years</button>
     <canvas id="priceChart" style="display: none;"></canvas>
 </section>
 <!-- view property section ends -->
