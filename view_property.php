@@ -157,117 +157,75 @@ include 'components/save_send.php';
 
 <section class="price-prediction">
     <h3 class="title">Next Year Price Prediction</h3>
-    <button id="viewAnalysisButton" class="btn btn-primary">View Price Analysis for next years</button>
+    <button id="viewAnalysisButton" class="btn btn-primary">View Price Analysis for next year</button>
     <canvas id="priceChart" style="display: none;"></canvas>
 </section>
 <!-- view property section ends -->
-
-
-
-
-
-
-
-
 
 
 <script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
 
-<?php include 'components/footer.php'; ?>
-
-<!-- custom js file link  -->
-<script src="js/script.js"></script>
-
-<?php include 'components/message.php'; ?>
-
 <script>
+   var swiper = new Swiper(".images-container", {
+     loop:true,
+     autoplay:{
+         delay: 3000,
+         disableOnInteraction: false,
+     },
+     pagination: {
+         el: ".swiper-pagination",
+         clickable: true,
+     },
+   });
 
-var swiper = new Swiper(".images-container", {
-   effect: "coverflow",
-   grabCursor: true,
-   centeredSlides: true,
-   slidesPerView: "auto",
-   loop:true,
-   coverflowEffect: {
-      rotate: 0,
-      stretch: 0,
-      depth: 200,
-      modifier: 3,
-      slideShadows: true,
-   },
-   pagination: {
-      el: ".swiper-pagination",
-   },
-});
+   // Price prediction chart
+   document.getElementById('viewAnalysisButton').addEventListener('click', function() {
+       // Collect property data and send it to backend
+       const propertyDetails = {
+           price: <?= json_encode($fetch_property['price']); ?>,
+           area: <?= json_encode($fetch_property['carpet']); ?>,
+           bhk: <?= json_encode($fetch_property['bhk']); ?>
+       };
 
+       fetch('/predict', {
+           method: 'POST',
+           headers: {
+               'Content-Type': 'application/json'
+           },
+           body: JSON.stringify(propertyDetails)
+       })
+       .then(response => response.json())
+       .then(data => {
+           // Display chart
+           const ctx = document.getElementById('priceChart').getContext('2d');
+           new Chart(ctx, {
+               type: 'line',
+               data: {
+                   labels: ['Current', 'Next Year'],
+                   datasets: [{
+                       label: 'Price Prediction',
+                       data: [propertyDetails.price, data.predicted_price],
+                       borderColor: 'rgba(75, 192, 192, 1)',
+                       borderWidth: 1
+                   }]
+               },
+               options: {
+                   responsive: true,
+                   scales: {
+                       y: {
+                           beginAtZero: false
+                       }
+                   }
+               }
+           });
 
-
-
-async function fetchPriceData() {
-        try {
-            const response = await fetch('http://127.0.0.1:5000/predict_prices?features=1,2,3'); // Replace 'features' with real inputs
-            const data = await response.json();
-            return data.next_year_prices;
-        } catch (error) {
-            console.error('Error fetching price data:', error);
-            return [];
-        }
-    }
-
-    // Render chart using Chart.js
-    async function renderPriceChart() {
-        const priceData = await fetchPriceData();
-        const ctx = document.getElementById('priceChart').getContext('2d');
-
-        new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-                datasets: [{
-                    label: 'Predicted Price ($)',
-                    data: priceData,
-                    borderColor: 'rgba(75, 192, 192, 1)',
-                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                    borderWidth: 2,
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: {
-                        position: 'top',
-                    },
-                    tooltip: {
-                        mode: 'index',
-                        intersect: false,
-                    },
-                },
-                interaction: {
-                    mode: 'nearest',
-                    axis: 'x',
-                    intersect: false
-                },
-                scales: {
-                    x: {
-                        beginAtZero: true
-                    },
-                    y: {
-                        beginAtZero: true
-                    }
-                }
-            }
-        });
-    }
-
-    // Add event listener to the button
-    document.getElementById('viewAnalysisButton').addEventListener('click', () => {
-        const chartCanvas = document.getElementById('priceChart');
-        chartCanvas.style.display = 'block'; // Show the chart
-        renderPriceChart(); // Render the chart
-    });
-
+           // Display chart
+           document.getElementById('priceChart').style.display = 'block';
+       })
+       .catch(error => console.error('Error:', error));
+   });
 </script>
 
 </body>
