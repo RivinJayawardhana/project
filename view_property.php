@@ -224,10 +224,23 @@ async function fetchPriceData() {
             'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-            price: 1000,
-            area: 1000,
-            bhk: 3,
-        })
+    Type: <?= json_encode($fetch_property['type']); ?>,
+    Place: "Colombo",  // This is already a hardcoded string
+    Status: <?= json_encode($fetch_property['status']); ?>,
+    Balcony: <?= json_encode($fetch_property['balcony']); ?>,
+    Furnished: <?= json_encode($fetch_property['furnished']); ?>,
+    Loan: <?= json_encode($fetch_property['loan']); ?>,
+    Price: <?= json_encode($fetch_property['price']); ?>,
+    Rooms: 5,  // Numeric value, no quotes needed
+    Bed: 4,    // Numeric value, no quotes needed
+    Deposit: <?= json_encode($fetch_property['deposite']); ?>,
+    Bedroom: <?= json_encode($fetch_property['bedroom']); ?>,
+    Bathroom: <?= json_encode($fetch_property['bathroom']); ?>,
+    Area: <?= json_encode($fetch_property['carpet']); ?>,
+    Age: <?= json_encode($fetch_property['age']); ?>,
+    TotalFloors: <?= json_encode($fetch_property['total_floors']); ?>,
+    RoomFloor: <?= json_encode($fetch_property['room_floor']); ?>
+})
     });
     const data = await response.json();
     return data.predicted_price;
