@@ -230,7 +230,7 @@ async function fetchPriceData() {
         })
     });
     const data = await response.json();
-    return data.predictedPrices;
+    return data.prediction;
 }
 
 
