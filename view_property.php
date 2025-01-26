@@ -250,12 +250,14 @@ async function fetchPriceData() {
 async function renderPriceChart() {
     const priceData = await fetchPriceData();
 
-   console.log(priceData)
+    console.log(priceData)
 
     const ctx = document.getElementById('priceChart').getContext('2d');
-    const price1=priceData.predicted_price1;
-    const price2=priceData.predicted_price2;
-    const price3=priceData.predicted_price3;
+    const price1 = Number(priceData.predicted_price1);
+    const price2 = Number(priceData.predicted_price2);
+    const price3 = Number(priceData.predicted_price3);
+
+   console.log(price1);
 
     new Chart(ctx, {
         type: 'line',
