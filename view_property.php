@@ -244,7 +244,7 @@ async function renderPriceChart() {
     new Chart(ctx, {
         type: 'line',
         data: {
-            labels: ['Jan'],
+            labels: ['2025','2026','2027'],
             datasets: [{
                 label: 'Predicted Price ($)',
                 data: priceData,
