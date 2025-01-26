@@ -247,7 +247,7 @@ async function renderPriceChart() {
             labels: ['2025','2026','2027'],
             datasets: [{
                 label: 'Predicted Price ($)',
-                data: priceData,
+                data: [priceData,'9000','6000'],
                 borderColor: 'rgba(75, 192, 192, 1)',
                 backgroundColor: 'rgba(75, 192, 192, 0.2)',
                 borderWidth: 2,
