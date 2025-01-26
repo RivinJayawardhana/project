@@ -218,8 +218,7 @@ async function fetchPriceData() {
 
     // Render chart using Chart.js
     async function fetchPriceData() {
-    try {
-      const response = await fetch('http://localhost:5001/predict', {  // Ensure this URL matches your Flask backend URL
+    const response = await fetch('http://localhost:5001/predict', {  // Ensure this URL matches your Flask backend URL
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -234,17 +233,6 @@ async function fetchPriceData() {
     return data.predictedPrices;
 }
 
-        if (!response.ok) {
-            throw new Error('Failed to fetch price data');
-        }
-
-        const data = await response.json();
-        return data.predictedPrices; // Assuming 'predictedPrices' is the key in the response
-    } catch (error) {
-        console.error('Error fetching price data:', error);
-        return [];
-    }
-}
 
 async function renderPriceChart() {
     const priceData = await fetchPriceData();
@@ -301,6 +289,7 @@ async function renderPriceChart() {
     document.getElementById('viewAnalysisButton').addEventListener('click', () => {
         const chartCanvas = document.getElementById('priceChart');
         chartCanvas.style.display = 'block'; // Show the chart
+        fetchPriceData();
         renderPriceChart(); // Render the chart
     });
 
