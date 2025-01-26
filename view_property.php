@@ -253,6 +253,9 @@ async function renderPriceChart() {
    console.log(priceData)
 
     const ctx = document.getElementById('priceChart').getContext('2d');
+    const price1=priceData.predicted_price1;
+    const price2=priceData.predicted_price2;
+    const price3=priceData.predicted_price3;
 
     new Chart(ctx, {
         type: 'line',
@@ -260,7 +263,7 @@ async function renderPriceChart() {
             labels: ['2025','2026','2027'],
             datasets: [{
                 label: 'Predicted Price ($)',
-                data: [priceData,'9000','6000'],
+                data: [price1,price2,price3],
                 borderColor: 'rgba(75, 192, 192, 1)',
                 backgroundColor: 'rgba(75, 192, 192, 0.2)',
                 borderWidth: 2,
