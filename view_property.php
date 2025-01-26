@@ -289,7 +289,7 @@ async function renderPriceChart() {
     document.getElementById('viewAnalysisButton').addEventListener('click', () => {
         const chartCanvas = document.getElementById('priceChart');
         chartCanvas.style.display = 'block'; // Show the chart
-        fetchPriceData();
+        //fetchPriceData();
         renderPriceChart(); // Render the chart
     });
 
