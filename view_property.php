@@ -230,17 +230,14 @@ async function fetchPriceData() {
         })
     });
     const data = await response.json();
-    return data.prediction;
+    return data.predicted_price;
 }
 
 
 async function renderPriceChart() {
     const priceData = await fetchPriceData();
 
-    if (priceData.length === 0) {
-        console.error('No price data available');
-        return;
-    }
+   console.log(priceData)
 
     const ctx = document.getElementById('priceChart').getContext('2d');
 
@@ -250,7 +247,7 @@ async function renderPriceChart() {
             labels: ['Jan'],
             datasets: [{
                 label: 'Predicted Price ($)',
-                data: [20000],
+                data: priceData,
                 borderColor: 'rgba(75, 192, 192, 1)',
                 backgroundColor: 'rgba(75, 192, 192, 0.2)',
                 borderWidth: 2,
